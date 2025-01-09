@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Mustard Oil Filling System</title>
+    <title>Industrial Mustard Oil Filling System</title>
     <style>
         body {
             margin: 0;
@@ -11,33 +11,58 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #1a1a1a;
+            background: #0f172a;
             font-family: Arial, sans-serif;
             color: #fff;
         }
 
         .dashboard {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            background: #222;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            display: grid;
+            grid-template-columns: 350px 450px;
+            gap: 25px;
+            padding: 25px;
+            background: #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .control-panel {
-            background: #2a2a2a;
-            padding: 20px;
+            background: #334155;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .system-status {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-card {
+            background: #475569;
+            padding: 15px;
             border-radius: 8px;
-            width: 300px;
+            text-align: center;
+        }
+
+        .status-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .status-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e2e8f0;
         }
 
         .filling-container {
-            background: #333;
-            padding: 20px;
-            border-radius: 8px;
-            width: 400px;
-            height: 500px;
+            background: #334155;
+            padding: 25px;
+            border-radius: 10px;
+            height: 600px;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -45,14 +70,14 @@
         }
 
         .tank {
-            width: 200px;
-            height: 300px;
-            background: rgba(255, 223, 0, 0.1);
-            border: 2px solid #666;
-            border-radius: 10px;
+            width: 250px;
+            height: 400px;
+            background: rgba(234, 179, 8, 0.1);
+            border: 3px solid #475569;
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
-            margin-top: 50px;
+            margin-top: 80px;
         }
 
         .oil-level {
@@ -60,170 +85,328 @@
             bottom: 0;
             width: 100%;
             height: 0%;
-            background: rgba(255, 223, 0, 0.6);
+            background: linear-gradient(180deg, rgba(234, 179, 8, 0.8) 0%, rgba(234, 179, 8, 0.6) 100%);
             transition: height 0.3s ease;
         }
 
-        .nozzle {
-            width: 40px;
-            height: 100px;
-            background: #666;
+        .nozzle-system {
             position: absolute;
-            top: -80px;
+            top: -60px;
             left: 50%;
             transform: translateX(-50%);
-            border-radius: 5px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .nozzle {
+            width: 30px;
+            height: 80px;
+            background: #64748b;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 6px;
+        }
+
+        .valve {
+            width: 40px;
+            height: 20px;
+            background: #94a3b8;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
         }
 
         .drops {
             position: absolute;
-            top: 20px;
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
             display: none;
         }
 
         .drop {
-            width: 8px;
-            height: 8px;
-            background: rgba(255, 223, 0, 0.8);
+            width: 10px;
+            height: 10px;
+            background: rgba(234, 179, 8, 0.9);
             border-radius: 50%;
             position: absolute;
             animation: drip 1s infinite;
         }
 
         @keyframes drip {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(50px); opacity: 0; }
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(60px) scale(0.8); opacity: 0; }
         }
 
         .lcd-display {
-            background: #000;
-            color: #4CAF50;
+            background: #1e293b;
+            color: #4ade80;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: monospace;
-            font-size: 24px;
-            margin-bottom: 20px;
-            width: 100%;
+            font-size: 28px;
+            margin-bottom: 25px;
             text-align: center;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+            border: 1px solid #475569;
         }
 
         .input-group {
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #888;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 14px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            background: #333;
+            padding: 12px;
+            border: 2px solid #475569;
+            border-radius: 6px;
+            background: #1e293b;
             color: #fff;
             font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #60a5fa;
         }
 
         .button-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start {
+            background: #4ade80;
+            color: #0f172a;
+        }
+
+        .btn-stop {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #60a5fa;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .status-ready {
+            background: #60a5fa;
+            color: white;
+        }
+
+        .status-filling {
+            background: #4ade80;
+            color: #0f172a;
+        }
+
+        .status-stopped {
+            background: #ef4444;
+            color: white;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #475569;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #60a5fa);
+            transition: width 0.3s ease;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .system-metrics {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-top: 20px;
         }
 
-        .btn {
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn-start {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .btn-stop {
-            background: #f44336;
-            color: white;
-        }
-
-        .btn-reset {
-            background: #2196F3;
-            color: white;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: scale(0.98);
-        }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
+        .metric {
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
             font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-top: 10px;
+            color: #94a3b8;
         }
 
-        .status-ready {
-            background: #2196F3;
-            color: white;
+        .metric-value {
+            font-size: 16px;
+            color: #e2e8f0;
+            margin-top: 5px;
         }
+        
+/* Responsive styles for different screen sizes */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 300px 400px;
+        gap: 20px;
+        padding: 20px;
+    }
+}
+@media (max-width: 850px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
 
-        .status-filling {
-            background: #4CAF50;
-            color: white;
-        }
+    .filling-container {
+        height: 500px !important;
+    }
 
-        .status-stopped {
-            background: #f44336;
-            color: white;
-        }
+    .tank {
+        width: 200px !important;
+        height: 350px !important;
+    }
+}
 
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: #444;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
 
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: #4CAF50;
-            transition: width 0.3s ease;
-        }
+    .dashboard {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .control-panel {
+        padding: 15px !important;
+    }
+
+    .system-status {
+        grid-template-columns: 1fr !important;
+    }
+
+    .button-group {
+        grid-template-columns: 1fr !important;
+    }
+
+    .btn-reset {
+        grid-column: auto !important;
+    }
+
+    .filling-container {
+        height: 400px !important;
+        padding: 15px !important;
+    }
+
+    .tank {
+        width: 180px !important;
+        height: 300px !important;
+        margin-top: 60px !important;
+    }
+
+    .nozzle-system {
+        top: -40px !important;
+        height: 60px !important;
+    }
+
+    .nozzle {
+        width: 20px !important;
+        height: 60px !important;
+    }
+
+    .valve {
+        width: 30px !important;
+        height: 15px !important;
+    }
+}
     </style>
 </head>
 <body>
     <div class="dashboard">
         <div class="control-panel">
+            <div class="system-status">
+                <div class="status-card">
+                    <h3>System Pressure</h3>
+                    <div class="status-value" id="pressureValue">0.0 BAR</div>
+                </div>
+                <div class="status-card">
+                    <h3>Temperature</h3>
+                    <div class="status-value" id="temperatureValue">25°C</div>
+                </div>
+            </div>
+
             <div class="lcd-display" id="lcdDisplay">0.00 ML</div>
             
             <div class="input-group">
                 <label>Target Volume (ML)</label>
-                <input type="number" id="targetInput" min="0" max="10000" value="1000">
+                <input type="number" id="targetInput" min="100" max="10000" value="1000" step="100">
+                <div class="error-message" id="targetError">Invalid target volume</div>
             </div>
             
             <div class="input-group">
                 <label>Flow Rate (ML/s)</label>
-                <input type="number" id="flowRateInput" min="1" max="100" value="50">
+                <input type="number" id="flowRateInput" min="10" max="200" value="50" step="10">
+                <div class="error-message" id="flowRateError">Invalid flow rate</div>
             </div>
             
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
             </div>
             
             <div class="button-group">
@@ -232,12 +415,26 @@
                 <button class="btn btn-reset" id="resetBtn">RESET</button>
             </div>
             
-            <div id="statusBadge" class="status-badge status-ready">Ready</div>
+            <div id="statusBadge" class="status-badge status-ready">System Ready</div>
+
+            <div class="system-metrics">
+                <div class="metric">
+                    <div>Efficiency</div>
+                    <div class="metric-value" id="efficiencyValue">100%</div>
+                </div>
+                <div class="metric">
+                    <div>Cycle Count</div>
+                    <div class="metric-value" id="cycleCount">0</div>
+                </div>
+            </div>
         </div>
         
         <div class="filling-container">
             <div class="tank">
-                <div class="nozzle"></div>
+                <div class="nozzle-system">
+                    <div class="valve"></div>
+                    <div class="nozzle"></div>
+                </div>
                 <div class="drops" id="drops">
                     <div class="drop" style="animation-delay: 0s"></div>
                     <div class="drop" style="animation-delay: 0.3s"></div>
@@ -249,91 +446,205 @@
     </div>
 
     <script>
-        // Elements
-        const lcdDisplay = document.getElementById('lcdDisplay');
-        const targetInput = document.getElementById('targetInput');
-        const flowRateInput = document.getElementById('flowRateInput');
-        const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const statusBadge = document.getElementById('statusBadge');
-        const progressBar = document.getElementById('progressBar');
-        const oilLevel = document.getElementById('oilLevel');
-        const drops = document.getElementById('drops');
-
-        // Variables
-        let currentVolume = 0;
-        let isRunning = false;
-        let fillInterval;
-
-        // Functions
-        function updateDisplays() {
-            lcdDisplay.textContent = currentVolume.toFixed(2) + ' ML';
-            const targetVolume = parseFloat(targetInput.value);
-            const progress = (currentVolume / targetVolume) * 100;
-            progressBar.style.width = `${progress}%`;
-            oilLevel.style.height = `${progress}%`;
-        }
-
-        function startFilling() {
-            if (isRunning) return;
-            
-            const targetVolume = parseFloat(targetInput.value);
-            const flowRate = parseFloat(flowRateInput.value);
-            
-            if (currentVolume >= targetVolume) {
-                alert('Please reset before starting a new fill');
-                return;
+        class FillingSystem {
+            constructor() {
+                this.initializeElements();
+                this.initializeVariables();
+                this.attachEventListeners();
+                this.startSystemMonitoring();
             }
 
-            isRunning = true;
-            statusBadge.className = 'status-badge status-filling';
-            statusBadge.textContent = 'Filling';
-            drops.style.display = 'block';
+            initializeElements() {
+                this.elements = {
+                    lcdDisplay: document.getElementById('lcdDisplay'),
+                    targetInput: document.getElementById('targetInput'),
+                    flowRateInput: document.getElementById('flowRateInput'),
+                    startBtn: document.getElementById('startBtn'),
+                    stopBtn: document.getElementById('stopBtn'),
+                    resetBtn: document.getElementById('resetBtn'),
+                    statusBadge: document.getElementById('statusBadge'),
+                    progressBar: document.getElementById('progressBar'),
+                    oilLevel: document.getElementById('oilLevel'),
+                    drops: document.getElementById('drops'),
+                    pressureValue: document.getElementById('pressureValue'),
+                    temperatureValue: document.getElementById('temperatureValue'),
+                    efficiencyValue: document.getElementById('efficiencyValue'),
+                    cycleCount: document.getElementById('cycleCount'),
+                    targetError: document.getElementById('targetError'),
+                    flowRateError: document.getElementById('flowRateError')
+                };
+            }
 
-            fillInterval = setInterval(() => {
-                if (currentVolume < targetVolume) {
-                    currentVolume += flowRate / 10;
-                    if (currentVolume > targetVolume) {
-                        currentVolume = targetVolume;
-                    }
-                    updateDisplays();
-                } else {
-                    stopFilling();
+            initializeVariables() {
+                this.currentVolume = 0;
+                this.isRunning = false;
+                this.fillInterval = null;
+                this.monitoringInterval = null;
+                this.cycles = 0;
+                this.startTime = 0;
+                this.efficiency = 100;
+            }
+
+            attachEventListeners() {
+                this.elements.startBtn.addEventListener('click', () => this.startFilling());
+                this.elements.stopBtn.addEventListener('click', () => this.stopFilling());
+                this.elements.resetBtn.addEventListener('click', () => this.resetSystem());
+                this.elements.targetInput.addEventListener('change', () => this.validateInputs());
+                this.elements.flowRateInput.addEventListener('change', () => this.validateInputs());
+            }
+
+            validateInputs() {
+                const targetVolume = parseFloat(this.elements.targetInput.value);
+                const flowRate = parseFloat(this.elements.flowRateInput.value);
+                
+                this.elements.targetError.style.display = 'none';
+                this.elements.flowRateError.style.display = 'none';
+                
+                if (targetVolume < 100 || targetVolume > 10000) {
+                    this.elements.targetError.style.display = 'block';
+                    return false;
                 }
-            }, 100);
-        }
+                
+                if (flowRate < 10 || flowRate > 200) {
+                    this.elements.flowRateError.style.display = 'block';
+                    return false;
+                }
 
-        function stopFilling() {
-            isRunning = false;
-            clearInterval(fillInterval);
-            statusBadge.className = 'status-badge status-stopped';
-            statusBadge.textContent = 'Stopped';
-            drops.style.display = 'none';
-        }
+                if (targetVolume < this.currentVolume) {
+                    this.elements.targetError.textContent = 'Target volume cannot be less than current volume';
+                    this.elements.targetError.style.display = 'block';
+                    this.elements.targetInput.value = this.currentVolume;
+                    return false;
+                }
 
-        function resetSystem() {
-            stopFilling();
-            currentVolume = 0;
-            updateDisplays();
-            statusBadge.className = 'status-badge status-ready';
-            statusBadge.textContent = 'Ready';
-        }
-
-        // Event Listeners
-        startBtn.addEventListener('click', startFilling);
-        stopBtn.addEventListener('click', stopFilling);
-        resetBtn.addEventListener('click', resetSystem);
-
-        targetInput.addEventListener('change', () => {
-            if (parseFloat(targetInput.value) < currentVolume) {
-                alert('Target volume cannot be less than current volume');
-                targetInput.value = currentVolume;
+                return true;
             }
-        });
 
-        // Initialize
-        updateDisplays();
+            updateDisplays() {
+                this.elements.lcdDisplay.textContent = this.currentVolume.toFixed(2) + ' ML';
+                const targetVolume = parseFloat(this.elements.targetInput.value);
+                const progress = (this.currentVolume / targetVolume) * 100;
+                this.elements.progressBar.style.width = `${progress}%`;
+                this.elements.oilLevel.style.height = `${progress}%`;
+            }
+
+            startFilling() {
+                if (this.isRunning || !this.validateInputs()) return;
+                
+                const targetVolume = parseFloat(this.elements.targetInput.value);
+                const flowRate = parseFloat(this.elements.flowRateInput.value);
+                
+                if (this.currentVolume >= targetVolume) {
+                    alert('Please reset before starting a new fill');
+                    return;
+                }
+
+                this.isRunning = true;
+                this.startTime = Date.now();
+                this.updateSystemStatus('filling');
+                this.elements.drops.style.display = 'block';
+
+                this.fillInterval = setInterval(() => {
+                    if (this.currentVolume < targetVolume) {
+                        this.currentVolume += flowRate / 10;
+                        if (this.currentVolume > targetVolume) {
+                            this.currentVolume = targetVolume;
+                        }
+                        this.updateDisplays();
+                        this.updateEfficiency();
+                    } else {
+                        this.completeFilling();
+                    }
+                }, 100);
+            }
+
+            stopFilling() {
+                if (!this.isRunning) return;
+                
+                this.isRunning = false;
+                clearInterval(this.fillInterval);
+                this.updateSystemStatus('stopped');
+                this.elements.drops.style.display = 'none';
+                this.updateEfficiency();
+            }
+
+            completeFilling() {
+                this.stopFilling();
+                this.cycles++;
+                this.elements.cycleCount.textContent = this.cycles;
+                this.updateSystemStatus('ready');
+                alert('Filling complete!');
+            }
+
+            resetSystem() {
+                this.stopFilling();
+                this.currentVolume = 0;
+                this.updateDisplays();
+                this.updateSystemStatus('ready');
+                this.efficiency = 100;
+                this.updateEfficiency();
+            }
+
+            updateSystemStatus(status) {
+                this.elements.statusBadge.className = `status-badge status-${status}`;
+                this.elements.statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            }
+
+            updateEfficiency() {
+                if (!this.isRunning) {
+                    this.efficiency = 100;
+                } else {
+                    const targetVolume = parseFloat(this.elements.targetInput.value);
+                    const expectedTime = targetVolume / parseFloat(this.elements.flowRateInput.value);
+                    const actualTime = (Date.now() - this.startTime) / 1000;
+                    this.efficiency = Math.min(100, Math.round((expectedTime / actualTime) * 100));
+                }
+                this.elements.efficiencyValue.textContent = `${this.efficiency}%`;
+            }
+
+            startSystemMonitoring() {
+                this.monitoringInterval = setInterval(() => {
+                    // Simulate pressure fluctuations
+                    this.pressure = this.isRunning ? 
+                        (2.5 + Math.random() * 0.2).toFixed(1) : 
+                        (0.5 + Math.random() * 0.1).toFixed(1);
+                    
+                    // Simulate temperature variations
+                    this.temperature = Math.round(25 + Math.random() * 2);
+                    
+                    // Update monitoring displays
+                    this.elements.pressureValue.textContent = `${this.pressure} BAR`;
+                    this.elements.temperatureValue.textContent = `${this.temperature}°C`;
+                    
+                    // Safety checks
+                    if (this.pressure > 2.8) {
+                        this.handlePressureWarning();
+                    }
+                    
+                    if (this.temperature > 28) {
+                        this.handleTemperatureWarning();
+                    }
+                }, 1000);
+            }
+
+            handlePressureWarning() {
+                if (this.isRunning) {
+                    alert('Warning: High pressure detected! System will pause.');
+                    this.stopFilling();
+                }
+            }
+
+            handleTemperatureWarning() {
+                if (this.isRunning) {
+                    alert('Warning: High temperature detected! Check cooling system.');
+                }
+            }
+        }
+
+        // Initialize the system
+        window.addEventListener('DOMContentLoaded', () => {
+            const system = new FillingSystem();
+        });
     </script>
 </body>
 </html>
