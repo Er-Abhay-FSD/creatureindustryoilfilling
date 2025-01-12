@@ -1,0 +1,19 @@
+# 🏭 Automatic Filling Machine  
+
+## 📌 Project Overview  
+The **Automatic Filling Machine** is designed to automate the process of filling liquid into containers with precision and efficiency. This project focuses on industrial automation, reducing manual effort and increasing production rates.  
+
+## 🚀 Features  
+✅ **Automated liquid filling** – Ensures consistent volume in each container.  
+✅ **Adjustable settings** – Modify fill levels, speed, and container sizes.  
+✅ **High efficiency** – Reduces waste and increases throughput.  
+✅ **User-friendly interface** – Simple control panel for easy operation.  
+✅ **Error detection** – Detects leaks, overflows, and misalignment.  
+
+## 🔧 Installation & Setup  
+To set up the **Automatic Filling Machine**, follow these steps:  
+
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/your-username/automatic-filling-machine.git
+   cd automatic-filling-machine
