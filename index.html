@@ -3,19 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Industrial Mustard Oil Filling System</title>
+    <title>Automatic Mustard Filling Machine Documentation</title>
     <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0f172a;
-            font-family: Arial, sans-serif;
-            color: #fff;
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --text-color: #1f2937;
+            --sidebar-width: 280px;
+            --header-height: 60px;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        nav {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: #f3f4f6;
+            padding: 1rem;
+            overflow-y: auto;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0.5rem 0;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+
+        nav ul li a:hover {
+            background-color: #e5e7eb;
+        }
+
+        nav ul li a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        main {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h1, h2, h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.5rem; }
+        h3 { font-size: 1.25rem; }
+
+        p, ul, ol {
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            nav.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+            }
+        }
         .dashboard {
             display: grid;
             grid-template-columns: 350px 450px;
@@ -297,6 +427,142 @@
             margin-top: 5px;
         }
         
+        /* 1. Flowing Oil Animation */
+@keyframes flowingOil {
+    0% {
+        background: linear-gradient(180deg, 
+            rgba(234, 179, 8, 0.8) 0%,
+            rgba(234, 179, 8, 0.6) 100%
+        );
+    }
+    50% {
+        background: linear-gradient(180deg,
+            rgba(234, 179, 8, 0.9) 0%,
+            rgba(234, 179, 8, 0.7) 50%,
+            rgba(234, 179, 8, 0.5) 100%
+        );
+    }
+    100% {
+        background: linear-gradient(180deg,
+            rgba(234, 179, 8, 0.8) 0%,
+            rgba(234, 179, 8, 0.6) 100%
+        );
+    }
+}
+
+.oil-level {
+    animation: flowingOil 2s ease-in-out infinite;
+}
+
+/* 2. Enhanced Dripping Animation */
+.drops {
+    width: 20px;
+    height: 80px;
+}
+
+@keyframes enhancedDrip {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateY(30px) scale(0.9);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(60px) scale(0.6);
+        opacity: 0;
+    }
+}
+
+.drop {
+    width: 8px;
+    height: 12px;
+    background: rgba(234, 179, 8, 0.9);
+    border-radius: 4px 4px 8px 8px;
+    animation: enhancedDrip 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* 3. Valve Operation Animation */
+@keyframes valveOperation {
+    0% { transform: scaleX(1); }
+    15% { transform: scaleX(0.85); }
+    30% { transform: scaleX(1.1); }
+    45% { transform: scaleX(0.95); }
+    60% { transform: scaleX(1); }
+}
+
+.valve.active {
+    animation: valveOperation 0.5s ease-in-out;
+    transform-origin: center;
+}
+
+/* 4. Nozzle Flow Effect */
+@keyframes nozzleFlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 10px 3px rgba(234, 179, 8, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4);
+    }
+}
+
+.nozzle.flowing {
+    animation: nozzleFlow 2s ease-in-out infinite;
+}
+
+/* 5. Tank Fill Wave Effect */
+@keyframes tankWave {
+    0% {
+        border-radius: 12px 12px 12px 12px;
+    }
+    25% {
+        border-radius: 15px 12px 12px 15px;
+    }
+    50% {
+        border-radius: 12px 15px 15px 12px;
+    }
+    75% {
+        border-radius: 12px 12px 15px 15px;
+    }
+    100% {
+        border-radius: 12px 12px 12px 12px;
+    }
+}
+
+.tank.filling {
+    animation: tankWave 4s ease-in-out infinite;
+}
+
+/* Additional Styles for Smooth Transitions */
+.nozzle, .valve, .oil-level, .tank {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Active States */
+.filling-container.active .nozzle {
+    filter: drop-shadow(0 0 5px rgba(234, 179, 8, 0.5));
+}
+
+.filling-container.active .valve {
+    background: #60a5fa;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .drops {
+        width: 15px;
+        height: 60px;
+    }
+    
+    .drop {
+        width: 6px;
+        height: 9px;
+    }
+}
 /* Responsive styles for different screen sizes */
 @media (max-width: 1024px) {
     .dashboard {
@@ -376,275 +642,919 @@
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <div class="control-panel">
-            <div class="system-status">
-                <div class="status-card">
-                    <h3>System Pressure</h3>
-                    <div class="status-value" id="pressureValue">0.0 BAR</div>
-                </div>
-                <div class="status-card">
-                    <h3>Temperature</h3>
-                    <div class="status-value" id="temperatureValue">25°C</div>
-                </div>
-            </div>
+    <header>
+        <h1>Mustard Filling Machine Documentation</h1>
+        <button class="menu-toggle">☰</button>
+    </header>
 
-            <div class="lcd-display" id="lcdDisplay">0.00 ML</div>
-            
-            <div class="input-group">
-                <label>Target Volume (ML)</label>
-                <input type="number" id="targetInput" min="100" max="10000" value="1000" step="100">
-                <div class="error-message" id="targetError">Invalid target volume</div>
-            </div>
-            
-            <div class="input-group">
-                <label>Flow Rate (ML/s)</label>
-                <input type="number" id="flowRateInput" min="10" max="200" value="50" step="10">
-                <div class="error-message" id="flowRateError">Invalid flow rate</div>
-            </div>
-            
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress" id="progressBar"></div>
-                </div>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-start" id="startBtn">START</button>
-                <button class="btn btn-stop" id="stopBtn">STOP</button>
-                <button class="btn btn-reset" id="resetBtn">RESET</button>
-            </div>
-            
-            <div id="statusBadge" class="status-badge status-ready">System Ready</div>
+    <nav>
+        <ul>
+            <li><a href="#system-architecture" class="active">System Architecture</a></li>
+            <li><a href="#electrical-design">Electrical Design</a></li>
+            <li><a href="#plc-programming">PLC Programming</a></li>
+            <li><a href="#hmi-design">HMI Design</a></li>
+            <li><a href="#operating-instructions">Operating Instructions</a></li>
+            <li><a href="#maintenance">Maintenance Manual</a></ li>
+            <li><a href="#troubleshooting">Troubleshooting Guide</a></li>
+            <li><a href="#safety">Safety Guidelines</a></li>
+            <li><a href="#working">Working</a></li>
 
-            <div class="system-metrics">
-                <div class="metric">
-                    <div>Efficiency</div>
-                    <div class="metric-value" id="efficiencyValue">100%</div>
-                </div>
-                <div class="metric">
-                    <div>Cycle Count</div>
-                    <div class="metric-value" id="cycleCount">0</div>
-                </div>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="system-architecture" class="section active">
+            <h2>1. System Architecture</h2>
+            <h3>1.1 Hardware Components List</h3>
+            <ul>
+                <li>PLC: Siemens S7-1200</li>
+                <li>HMI: Siemens KTP700 Basic</li>
+                <li>VFD: Siemens SINAMICS G120</li>
+                <li>Flow Meter: Endress+Hauser Promass F300</li>
+                <li>Level Sensors: IFM LMT100</li>
+                <li>Proximity Sensors: SICK IME2S</li>
+                <li>Servo Motors: Siemens SIMOTICS S-1FK7</li>
+                <li>Pneumatic Valves: Festo VZWD</li>
+            </ul>
+
+            <h3>1.2 Network Architecture</h3>
+            <pre>
+[Plant Network]
+    │
+    ├── PLC (192.168.1.10)
+    │    ├── Digital I/O Rack
+    │    └── Analog I/O Rack
+    │
+    ├── HMI (192.168.1.20)
+    │
+    ├── VFD (192.168.1.30)
+    │
+    └── Flow Meter (192.168.1.40)</pre>
+        </section>
+
+        <section id="electrical-design" class="section">
+            <h2>2. Electrical Design</h2>
+            <h3>2.1 Power Distribution</h3>
+            <pre>
+Main Supply (415V AC, 3-Phase)
+├── Main Circuit Breaker (100A)
+│   ├── VFD Circuit (32A)
+│   ├── Control Circuit (16A)
+│   └── Auxiliary Circuit (10A)</pre>
+
+            <h3>2.2 Control Panel Layout</h3>
+            <ul>
+                <li>Dimensions: 800mm x 1000mm x 300mm</li>
+                <li>Material: Stainless Steel 304</li>
+                <li>Protection: IP65</li>
+                <li>Air Conditioning: 1000BTU</li>
+            </ul>
+
+            <h3>2.3 I/O List</h3>
+            <h4>Digital Inputs</h4>
+            <ul>
+                <li>Emergency Stop (I0.0)</li>
+                <li>Start Button (I0.1)</li>
+                <li>Stop Button (I0.2)</li>
+                <li>Bottle Present Sensor (I0.3)</li>
+                <li>Tank High Level (I0.4)</li>
+                <li>Tank Low Level (I0.5)</li>
+            </ul>
+
+            <h4>Digital Outputs</h4>
+            <ul>
+                <li>Conveyor Run (Q0.0)</li>
+                <li>Fill Valve (Q0.1)</li>
+                <li>Running Lamp (Q0.2)</li>
+                <li>Fault Lamp (Q0.3)</li>
+                <li>Buzzer (Q0.4)</li>
+            </ul>
+
+            <h4>Analog Inputs</h4>
+            <ul>
+                <li>Flow Meter (IW64)</li>
+                <li>Tank Level (IW66)</li>
+                <li>Speed Feedback (IW68)</li>
+            </ul>
+
+            <h4>Analog Outputs</h4>
+            <ul>
+                <li>VFD Speed Reference (QW64)</li>
+                <li>Fill Valve Control (QW66)</li>
+            </ul>
+
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800">
+                    <!-- Grid Background -->
+                    <defs>
+                      <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f0f0f0" stroke-width="0.5"/>
+                      </pattern>
+                      <symbol id="resistor" viewBox="0 0 40 20">
+                        <path d="M 0,10 L 5,10 L 7,5 L 13,15 L 19,5 L 25,15 L 31,5 L 35,10 L 40,10" fill="none" stroke="#006400" stroke-width="2"/>
+                      </symbol>
+                    </defs>
+                    <rect width="1000" height="800" fill="url(#grid)" />
+                  
+                    <!-- Arduino Mega -->
+                    <rect x="400" y="200" width="200" height="400" fill="#00979D" stroke="#007076" stroke-width="2"/>
+                    <text x="450" y="230" fill="white" font-family="Arial" font-size="20" font-weight="bold">Arduino</text>
+                    
+                    <!-- Digital Pins -->
+                    <g font-family="Arial" font-size="14">
+                      <g fill="#333">
+                        <circle cx="390" cy="270" r="3" fill="#006400"/>
+                        <text x="380" y="275" text-anchor="end">D2 (Flow)</text>
+                        
+                        <circle cx="390" cy="300" r="3" fill="#006400"/>
+                        <text x="380" y="305" text-anchor="end">D3 (Pump)</text>
+                        
+                        <circle cx="390" cy="330" r="3" fill="#006400"/>
+                        <text x="380" y="335" text-anchor="end">D4 (Valve)</text>
+                        
+                        <circle cx="390" cy="360" r="3" fill="#006400"/>
+                        <text x="380" y="365" text-anchor="end">D5 (Start)</text>
+                        
+                        <circle cx="390" cy="390" r="3" fill="#006400"/>
+                        <text x="380" y="395" text-anchor="end">D6 (Stop)</text>
+                        
+                        <circle cx="390" cy="420" r="3" fill="#006400"/>
+                        <text x="380" y="425" text-anchor="end">D7 (Reset)</text>
+                        
+                        <circle cx="390" cy="450" r="3" fill="#006400"/>
+                        <text x="380" y="455" text-anchor="end">D8 (LCD RS)</text>
+                        
+                        <circle cx="390" cy="480" r="3" fill="#006400"/>
+                        <text x="380" y="485" text-anchor="end">D9 (LCD EN)</text>
+                        
+                        <circle cx="390" cy="510" r="3" fill="#006400"/>
+                        <text x="380" y="515" text-anchor="end">D10 (LCD D4)</text>
+                        
+                        <circle cx="390" cy="540" r="3" fill="#006400"/>
+                        <text x="380" y="545" text-anchor="end">D11 (LCD D5)</text>
+                        
+                        <circle cx="390" cy="570" r="3" fill="#006400"/>
+                        <text x="380" y="575" text-anchor="end">D12 (LCD D6)</text>
+                        
+                        <circle cx="390" cy="600" r="3" fill="#006400"/>
+                        <text x="380" y="605" text-anchor="end">D13 (LCD D7)</text>
+                      </g>
+                  
+                      <g fill="#333">
+                        <circle cx="610" cy="270" r="3" fill="#006400"/>
+                        <text x="620" y="275">A0 (Temp)</text>
+                        
+                        <circle cx="610" cy="300" r="3" fill="#006400"/>
+                        <text x="620" y="305">A1 (Press)</text>
+                      </g>
+                    </g>
+                  
+                    <!-- Power Rails -->
+                    <rect x="400" y="150" width="200" height="30" fill="#FF0000" stroke="#800000" stroke-width="2"/>
+                    <text x="500" y="170" fill="white" font-family="Arial" font-size="14" text-anchor="middle">5V Power Rail</text>
+                    
+                    <rect x="400" y="620" width="200" height="30" fill="#000000" stroke="#333333" stroke-width="2"/>
+                    <text x="500" y="640" fill="white" font-family="Arial" font-size="14" text-anchor="middle">GND Rail</text>
+                  
+                    <!-- Components -->
+                    <!-- Flow Sensor -->
+                    <g transform="translate(100,250)">
+                      <rect width="120" height="60" fill="#90EE90" stroke="#006400" stroke-width="2" rx="5"/>
+                      <text x="60" y="35" fill="#000" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Flow Sensor</text>
+                      <circle cx="120" cy="30" r="3" fill="#006400"/> <!-- Output pin -->
+                      <text x="60" y="50" fill="#000" font-family="Arial" font-size="12" text-anchor="middle">YF-S201</text>
+                    </g>
+                  
+                    <!-- Pump Control -->
+                    <g transform="translate(100,350)">
+                      <rect width="120" height="80" fill="#90EE90" stroke="#006400" stroke-width="2" rx="5"/>
+                      <text x="60" y="35" fill="#000" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Pump</text>
+                      <text x="60" y="55" fill="#000" font-family="Arial" font-size="12" text-anchor="middle">12V DC</text>
+                      <use href="#resistor" x="40" y="60" width="40" height="20"/>
+                    </g>
+                  
+                    <!-- LCD Display -->
+                    <g transform="translate(700,400)">
+                      <rect width="200" height="100" fill="#90EE90" stroke="#006400" stroke-width="2" rx="5"/>
+                      <text x="100" y="30" fill="#000" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">LCD 16x2</text>
+                      <text x="100" y="50" fill="#000" font-family="Arial" font-size="12" text-anchor="middle">HD44780</text>
+                      <g font-size="10">
+                        <text x="10" y="70">RS</text>
+                        <text x="40" y="70">EN</text>
+                        <text x="70" y="70">D4</text>
+                        <text x="100" y="70">D5</text>
+                        <text x="130" y="70">D6</text>
+                        <text x="160" y="70">D7</text>
+                        <text x="190" y="70">VCC</text>
+                      </g>
+                    </g>
+                  
+                    <!-- Sensors -->
+                    <g transform="translate(700,250)">
+                      <rect width="120" height="60" fill="#90EE90" stroke="#006400" stroke-width="2" rx="5"/>
+                      <text x="60" y="25" fill="#000" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Temp Sensor</text>
+                      <text x="60" y="45" fill="#000" font-family="Arial" font-size="12" text-anchor="middle">LM35</text>
+                    </g>
+                  
+                    <!-- Connection Lines -->
+                    <path d="M 220 280 H 390" fill="none" stroke="#006400" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="300" y="275" fill="#006400" font-family="Arial" font-size="12">Flow Signal</text>
+                  
+                    <path d="M 220 390 H 390" fill="none" stroke="#006400" stroke-width="2"/>
+                    <text x="300" y="385" fill="#006400" font-family="Arial" font-size="12">Pump Control</text>
+                  
+                    <path d="M 700 450 H 390" fill="none" stroke="#006400" stroke-width="2"/>
+                    <path d="M 700 470 H 390" fill="none" stroke="#006400" stroke-width="2"/>
+                    <path d="M 700 490 H 390" fill="none" stroke="#006 ```xml
+                  400" stroke="#006400" stroke-width="2"/>
+                  
+                    <path d="M 500 150 V 100 H 100 V 250" fill="none" stroke="#FF0000" stroke-width="2"/>
+                    <path d="M 500 620 V 700 H 100 V 430" fill="none" stroke="#000000" stroke-width="2"/>
+                  
+                    <!-- Legend -->
+                    <g transform="translate(50,700)">
+                      <rect width="900" height="80" fill="#f8f8f8" stroke="#006400" stroke-width="1"/>
+                      <text x="20" y="20" fill="#000" font-family="Arial" font-size="14" font-weight="bold">Component Details:</text>
+                      <text x="20" y="40" fill="#000" font-family="Arial" font-size="12">Flow Sensor: YF-S201 (5V powered, outputs pulses proportional to flow)</text>
+                      <text x="20" y="60" fill="#000" font-family="Arial" font-size="12">Temperature Sensor: LM35 (Analog output, 10mV/°C)</text>
+                      <text x="20" y="80" fill="#000" font-family="Arial" font-size="12">LCD: HD44780 compatible 16x2 display (4-bit mode)</text>
+                      
+                      <text x="500" y="40" fill="#000" font-family="Arial" font-size="12">Power: Red = 5V, Black = GND</text>
+                      <text x="500" y="60" fill="#000" font-family="Arial" font-size="12">Signal: Green = Digital/Analog signals</text>
+                    </g>
+                  </svg>
             </div>
-        </div>
+        </section>
+
+        <section id="plc-programming" class="section">
+            <h2>3. PLC Programming</h2>
+            <h3>3.1 Main Program Structure</h3>
+            <pre>
+OB1 (Main Program)
+├── FC1 - System Initialization
+├── FC2 - Mode Selection
+├── FC3 - Conveyor Control
+├── FC4 - Filling Control
+├── FC5 - Alarm Handler
+└── FC6 - Data Logging
+
+DB1 - System Parameters
+DB2 - Recipe Data
+DB3 - Production Data
+DB4 - Alarm Data</pre>
+
+            <h3>3.2 Key Functions</h3>
+            < ```plc
+            <h4>Filling Control (FC4)</h4>
+            <pre>
+// Filling Control Logic
+IF "Bottle_Present" AND "System_Ready" THEN
+    // Calculate fill amount based on recipe
+    #Fill_Amount := #Recipe.Target_Volume;
+    
+    // Start filling sequence
+    IF #Current_Volume < #Fill_Amount THEN
+        "Fill_Valve" := TRUE;
+        // Monitor flow rate
+        #Flow_Rate := "Flow_Meter".Value;
+    ELSE
+        "Fill_Valve" := FALSE;
+        // Move to next position
+        #Conveyor_Forward := TRUE;
+    END_IF;
+END_IF;
+            </pre>
+        </section>
+
+        <section id="hmi-design" class="section">
+            <h2>4. HMI Design</h2>
+            <h3>4.1 Screen Hierarchy</h3>
+            <pre>
+Main Menu
+├── Operation Screen
+│   ├── Manual Control
+│   └── Auto Control
+├── Recipe Management
+│   ├── Create Recipe
+│   └── Load Recipe
+├── Production Data
+│   ├── Current Batch
+│   └── Historical Data
+└── System Settings
+    ├── Parameters
+    └── Calibration
+            </pre>
+
+            <h3>4.2 Tags Configuration</h3>
+            <h4>HMI Tags</h4>
+            <ul>
+                <li>System_Status (Int)</li>
+                <li>Current_Recipe (String)</li>
+                <li>Target_Volume (Real)</li>
+                <li>Actual_Volume (Real)</li>
+                <li>Conveyor_Speed (Real)</li>
+                <li>Production_Count (DInt)</li>
+            </ul>
+        </section>
+
+        <section id="operating-instructions" class="section">
+            <h2>5. Operating Instructions</h2>
+            <h3>5.1 Startup Sequence</h3>
+            <ol>
+                <li>Power up system</li>
+                <li>Check emergency stops</li>
+                <li>Verify utility connections</li>
+                <li>Home all axes</li>
+                <li>Load recipe</li>
+                <li>Start production</li>
+            </ol>
+
+            <h3>5.2 Recipe Management</h3>
+            <ul>
+                <li>Volume Range: 100ml - 5000ml</li>
+                <li>Speed Range: 10 - 100%</li>
+                <li>Acceleration: 0.1 - 2.0 seconds</li>
+                <li>Deceleration: 0.1 - 2.0 seconds</li>
+            </ul>
+        </section>
+
+        <section id="maintenance" class="section">
+            <h2>6. Maintenance Manual</h2>
+            <h3>6.1 Preventive Maintenance Schedule</h3>
+            <ul>
+                <li><strong>Daily:</strong>
+                    <ul>
+                        <li>Clean filling nozzles</li>
+                        <li>Check emergency stops</li>
+                        <li>Verify sensor operation</li>
+                    </ul>
+                </li>
+                <li><strong>Weekly:</strong>
+                    <ul>
+                        <li>Calibrate flow meter</li>
+                        <li>Check belt tension</li>
+                        <li>Clean filters</li>
+                    </ul>
+                </li>
+                <li><strong>Monthly:</strong>
+                    <ul>
+                        <li>Backup PLC program</li>
+                        <li>Check electrical connections</li>
+                        <li>Lubricate bearings</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>6.2 Calibration Procedures</h3>
+            <ol>
+                <li>Flow Meter Calibration
+                    <ul>
+                        <li>Zero calibration</li>
+                        <li>Span calibration</li>
+                        <li>Verification run</li>
+                    </ul>
+                </li>
+                <li>Level Sensor Calibration
+                    <ul>
+                        <li>Empty tank calibration</li>
+                        <li>Full tank calibration</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="troubleshooting" class="section">
+            <h2>7. Troubleshooting Guide</h2>
+            <h3>7.1 Error Codes</h3>
+            <ul>
+                <li>E001: Emergency Stop Active</li>
+                <li>E002: Low Tank Level</li>
+                <li>E003 : Flow Meter Error</li>
+                <li>E004: VFD Fault</li>
+                <li>E005: Network Communication Error</li>
+            </ul>
+
+            <h3>7.2 Common Issues and Solutions</h3>
+            <h4>No Power to System</h4>
+            <ol>
+                <li>Check main breaker</li>
+                <li>Verify control voltage</li>
+                <li>Check fuse status</li>
+            </ol>
+
+            <h4>Inaccurate Filling</h4>
+            <ol>
+                <li>Calibrate flow meter</li>
+                <li>Check for air in lines</li>
+                <li>Verify valve operation</li>
+                <li>Clean filling nozzle</li>
+            </ol>
+
+            <h4>Conveyor Issues</h4>
+            <ol>
+                <li>Check VFD parameters</li>
+                <li>Verify motor connections</li>
+                <li>Inspect belt condition</li>
+                <li>Check tracking alignment</li>
+            </ol>
+
+            <h3>7.3 Spare Parts List</h3>
+            <ul>
+                <li>Proximity Sensors (P/N: SICK-IME2S)</li>
+                <li>Flow Meter Seals (P/N: E+H-SEAL-KIT)</li>
+                <li>Valve Diaphragms (P/N: FESTO-VZWD-DIA)</li>
+                <li>Drive Belts (P/N: CONV-BELT-B32)</li>
+                <li>Control Fuses (P/N: FUSE-10A-CC)</li>
+            </ul>
+        </section>
+
+        <section id="safety" class="section">
+            <h2>8. Safety Guidelines</h2>
+            <h3>8.1 Safety Interlocks</h3>
+            <ul>
+                <li>Emergency Stop Circuit</li>
+                <li>Guard Door Interlocks</li>
+                <li>Overflow Protection</li>
+                <li>Pressure Monitoring</li>
+            </ul>
+
+            <h3>8.2 Personal Protection Equipment</h3>
+            <ul>
+                <li>Safety Glasses</li>
+                <li>Chemical Resistant Gloves</li>
+                <li>Steel Toe Boots</li>
+                <li>Hair Nets</li>
+            </ul>
+        </section>
+
+        <section id="working" class="section">
+            <div class="dashboard">
+                <div class="control-panel">
+                    <div class="system-status">
+                        <div class="status-card">
+                            <h3>System Pressure</h3>
+                            <div class="status-value" id="pressureValue">0.0 BAR</div>
+                        </div>
+                        <div class="status-card">
+                            <h3>Temperature</h3>
+                            <div class="status-value" id="temperatureValue">25°C</div>
+                        </div>
+                    </div>
         
-        <div class="filling-container">
-            <div class="tank">
-                <div class="nozzle-system">
-                    <div class="valve"></div>
-                    <div class="nozzle"></div>
+                    <div class="lcd-display" id="lcdDisplay">0.00 ML</div>
+                    
+                    <div class="input-group">
+                        <label>Target Volume (ML)</label>
+                        <input type="number" id="targetInput" min="100" max="10000" value="1000" step="100">
+                        <div class="error-message" id="targetError">Invalid target volume</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Flow Rate (ML/s)</label>
+                        <input type="number" id="flowRateInput" min="10" max="200" value="50" step="10">
+                        <div class="error-message" id="flowRateError">Invalid flow rate</div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" id="progressBar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-start" id="startBtn">START</button>
+                        <button class="btn btn-stop" id="stopBtn">STOP</button>
+                        <button class="btn btn-reset" id="resetBtn">RESET</button>
+                    </div>
+                    
+                    <div id="statusBadge" class="status-badge status-ready">System Ready</div>
+        
+                    <div class="system-metrics">
+                        <div class="metric">
+                            <div>Efficiency</div>
+                            <div class="metric-value" id="efficiencyValue">100%</div>
+                        </div>
+                        <div class="metric">
+                            <div>Cycle Count</div>
+                            <div class="metric-value" id="cycleCount">0</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="drops" id="drops">
-                    <div class="drop" style="animation-delay: 0s"></div>
-                    <div class="drop" style="animation-delay: 0.3s"></div>
-                    <div class="drop" style="animation-delay: 0.6s"></div>
+                
+                
+                <div class="filling-container">
+                    <div class="tank">
+                        <div class="nozzle-system">
+                            <div class="valve"></div>
+                            <div class="nozzle"></div>
+                        </div>
+                        <div class="drops" id="drops">
+                            <div class="drop" style="animation-delay: 0s"></div>
+                            <div class="drop" style="animation-delay: 0.3s"></div>
+                            <div class="drop" style="animation-delay: 0.6s"></div>
+                        </div>
+                        <div class="oil-level" id="oilLevel"></div>
+                    </div>
                 </div>
-                <div class="oil-level" id="oilLevel"></div>
             </div>
-        </div>
-    </div>
+        </section>
+
+
+
+    </main>
 
     <script>
+        // Navigation handling
+        const navLinks = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('.section');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active states
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show correct section
+                const targetId = link.getAttribute('href').slice(1);
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    }
+                });
+
+                // Close mobile menu if open
+                if (window.innerWidth <= 768) {
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !nav.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        });
         class FillingSystem {
-            constructor() {
-                this.initializeElements();
-                this.initializeVariables();
-                this.attachEventListeners();
-                this.startSystemMonitoring();
+    constructor() {
+        this.initializeElements();
+        this.initializeVariables();
+        this.attachEventListeners();
+        this.startSystemMonitoring();
+    }
+
+    initializeElements() {
+        this.elements = {
+            lcdDisplay: document.getElementById('lcdDisplay'),
+            targetInput: document.getElementById('targetInput'),
+            flowRateInput: document.getElementById('flowRateInput'),
+            startBtn: document.getElementById('startBtn'),
+            stopBtn: document.getElementById('stopBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            statusBadge: document.getElementById('statusBadge'),
+            progressBar: document.getElementById('progressBar'),
+            oilLevel: document.getElementById('oilLevel'),
+            drops: document.getElementById('drops'),
+            pressureValue: document.getElementById('pressureValue'),
+            temperatureValue: document.getElementById('temperatureValue'),
+            efficiencyValue: document.getElementById('efficiencyValue'),
+            cycleCount: document.getElementById('cycleCount'),
+            targetError: document.getElementById('targetError'),
+            flowRateError: document.getElementById('flowRateError'),
+            tank: document.querySelector('.tank'),
+            nozzle: document.querySelector('.nozzle'),
+            valve: document.querySelector('.valve'),
+            fillingContainer: document.querySelector('.filling-container')
+        };
+        
+        // Create animated drops
+        this.createDrops();
+    }
+
+    createDrops() {
+        this.elements.drops.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+            const drop = document.createElement('div');
+            drop.className = 'drop';
+            drop.style.animationDelay = `${i * 0.2}s`;
+            drop.style.left = `${10 + i * 2}px`;
+            this.elements.drops.appendChild(drop);
+        }
+    }
+
+    initializeVariables() {
+        this.currentVolume = 0;
+        this.isRunning = false;
+        this.fillInterval = null;
+        this.monitoringInterval = null;
+        this.cycles = 0;
+        this.startTime = 0;
+        this.efficiency = 100;
+        this.previousTemps = new Array(10).fill(25);
+        this.previousPressures = new Array(10).fill(0.5);
+        this.warningTimeout = null;
+    }
+
+    attachEventListeners() {
+        this.elements.startBtn.addEventListener('click', () => this.startFilling());
+        this.elements.stopBtn.addEventListener('click', () => this.stopFilling());
+        this.elements.resetBtn.addEventListener('click', () => this.resetSystem());
+        
+        // Debounced input validation
+        const debounce = (fn, delay) => {
+            let timeoutId;
+            return (...args) => {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => fn.apply(this, args), delay);
+            };
+        };
+        
+        const validateDebounced = debounce(() => this.validateInputs(), 300);
+        this.elements.targetInput.addEventListener('input', validateDebounced);
+        this.elements.flowRateInput.addEventListener('input', validateDebounced);
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                this.isRunning ? this.stopFilling() : this.startFilling();
+            } else if (e.code === 'KeyR') {
+                e.preventDefault();
+                this.resetSystem();
             }
+        });
+    }
 
-            initializeElements() {
-                this.elements = {
-                    lcdDisplay: document.getElementById('lcdDisplay'),
-                    targetInput: document.getElementById('targetInput'),
-                    flowRateInput: document.getElementById('flowRateInput'),
-                    startBtn: document.getElementById('startBtn'),
-                    stopBtn: document.getElementById('stopBtn'),
-                    resetBtn: document.getElementById('resetBtn'),
-                    statusBadge: document.getElementById('statusBadge'),
-                    progressBar: document.getElementById('progressBar'),
-                    oilLevel: document.getElementById('oilLevel'),
-                    drops: document.getElementById('drops'),
-                    pressureValue: document.getElementById('pressureValue'),
-                    temperatureValue: document.getElementById('temperatureValue'),
-                    efficiencyValue: document.getElementById('efficiencyValue'),
-                    cycleCount: document.getElementById('cycleCount'),
-                    targetError: document.getElementById('targetError'),
-                    flowRateError: document.getElementById('flowRateError')
-                };
-            }
-
-            initializeVariables() {
-                this.currentVolume = 0;
-                this.isRunning = false;
-                this.fillInterval = null;
-                this.monitoringInterval = null;
-                this.cycles = 0;
-                this.startTime = 0;
-                this.efficiency = 100;
-            }
-
-            attachEventListeners() {
-                this.elements.startBtn.addEventListener('click', () => this.startFilling());
-                this.elements.stopBtn.addEventListener('click', () => this.stopFilling());
-                this.elements.resetBtn.addEventListener('click', () => this.resetSystem());
-                this.elements.targetInput.addEventListener('change', () => this.validateInputs());
-                this.elements.flowRateInput.addEventListener('change', () => this.validateInputs());
-            }
-
-            validateInputs() {
-                const targetVolume = parseFloat(this.elements.targetInput.value);
-                const flowRate = parseFloat(this.elements.flowRateInput.value);
-                
-                this.elements.targetError.style.display = 'none';
-                this.elements.flowRateError.style.display = 'none';
-                
-                if (targetVolume < 100 || targetVolume > 10000) {
-                    this.elements.targetError.style.display = 'block';
-                    return false;
-                }
-                
-                if (flowRate < 10 || flowRate > 200) {
-                    this.elements.flowRateError.style.display = 'block';
-                    return false;
-                }
-
-                if (targetVolume < this.currentVolume) {
-                    this.elements.targetError.textContent = 'Target volume cannot be less than current volume';
-                    this.elements.targetError.style.display = 'block';
-                    this.elements.targetInput.value = this.currentVolume;
-                    return false;
-                }
-
-                return true;
-            }
-
-            updateDisplays() {
-                this.elements.lcdDisplay.textContent = this.currentVolume.toFixed(2) + ' ML';
-                const targetVolume = parseFloat(this.elements.targetInput.value);
-                const progress = (this.currentVolume / targetVolume) * 100;
-                this.elements.progressBar.style.width = `${progress}%`;
-                this.elements.oilLevel.style.height = `${progress}%`;
-            }
-
-            startFilling() {
-                if (this.isRunning || !this.validateInputs()) return;
-                
-                const targetVolume = parseFloat(this.elements.targetInput.value);
-                const flowRate = parseFloat(this.elements.flowRateInput.value);
-                
-                if (this.currentVolume >= targetVolume) {
-                    alert('Please reset before starting a new fill');
-                    return;
-                }
-
-                this.isRunning = true;
-                this.startTime = Date.now();
-                this.updateSystemStatus('filling');
-                this.elements.drops.style.display = 'block';
-
-                this.fillInterval = setInterval(() => {
-                    if (this.currentVolume < targetVolume) {
-                        this.currentVolume += flowRate / 10;
-                        if (this.currentVolume > targetVolume) {
-                            this.currentVolume = targetVolume;
-                        }
-                        this.updateDisplays();
-                        this.updateEfficiency();
-                    } else {
-                        this.completeFilling();
-                    }
-                }, 100);
-            }
-
-            stopFilling() {
-                if (!this.isRunning) return;
-                
-                this.isRunning = false;
-                clearInterval(this.fillInterval);
-                this.updateSystemStatus('stopped');
-                this.elements.drops.style.display = 'none';
-                this.updateEfficiency();
-            }
-
-            completeFilling() {
-                this.stopFilling();
-                this.cycles++;
-                this.elements.cycleCount.textContent = this.cycles;
-                this.updateSystemStatus('ready');
-                alert('Filling complete!');
-            }
-
-            resetSystem() {
-                this.stopFilling();
-                this.currentVolume = 0;
-                this.updateDisplays();
-                this.updateSystemStatus('ready');
-                this.efficiency = 100;
-                this.updateEfficiency();
-            }
-
-            updateSystemStatus(status) {
-                this.elements.statusBadge.className = `status-badge status-${status}`;
-                this.elements.statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-            }
-
-            updateEfficiency() {
-                if (!this.isRunning) {
-                    this.efficiency = 100;
-                } else {
-                    const targetVolume = parseFloat(this.elements.targetInput.value);
-                    const expectedTime = targetVolume / parseFloat(this.elements.flowRateInput.value);
-                    const actualTime = (Date.now() - this.startTime) / 1000;
-                    this.efficiency = Math.min(100, Math.round((expectedTime / actualTime) * 100));
-                }
-                this.elements.efficiencyValue.textContent = `${this.efficiency}%`;
-            }
-
-            startSystemMonitoring() {
-                this.monitoringInterval = setInterval(() => {
-                    // Simulate pressure fluctuations
-                    this.pressure = this.isRunning ? 
-                        (2.5 + Math.random() * 0.2).toFixed(1) : 
-                        (0.5 + Math.random() * 0.1).toFixed(1);
-                    
-                    // Simulate temperature variations
-                    this.temperature = Math.round(25 + Math.random() * 2);
-                    
-                    // Update monitoring displays
-                    this.elements.pressureValue.textContent = `${this.pressure} BAR`;
-                    this.elements.temperatureValue.textContent = `${this.temperature}°C`;
-                    
-                    // Safety checks
-                    if (this.pressure > 2.8) {
-                        this.handlePressureWarning();
-                    }
-                    
-                    if (this.temperature > 28) {
-                        this.handleTemperatureWarning();
-                    }
-                }, 1000);
-            }
-
-            handlePressureWarning() {
-                if (this.isRunning) {
-                    alert('Warning: High pressure detected! System will pause.');
-                    this.stopFilling();
-                }
-            }
-
-            handleTemperatureWarning() {
-                if (this.isRunning) {
-                    alert('Warning: High temperature detected! Check cooling system.');
-                }
-            }
+    validateInputs() {
+        const targetVolume = parseFloat(this.elements.targetInput.value);
+        const flowRate = parseFloat(this.elements.flowRateInput.value);
+        let isValid = true;
+        
+        // Clear previous errors
+        this.elements.targetError.style.display = 'none';
+        this.elements.flowRateError.style.display = 'none';
+        
+        // Validate target volume
+        if (isNaN(targetVolume) || targetVolume < 100 || targetVolume > 10000) {
+            this.elements.targetError.textContent = 'Target volume must be between 100-10000 ML';
+            this.elements.targetError.style.display = 'block';
+            isValid = false;
+        }
+        
+        // Validate flow rate
+        if (isNaN(flowRate) || flowRate < 10 || flowRate > 200) {
+            this.elements.flowRateError.textContent = 'Flow rate must be between 10-200 ML/s';
+            this.elements.flowRateError.style.display = 'block';
+            isValid = false;
         }
 
-        // Initialize the system
-        window.addEventListener('DOMContentLoaded', () => {
-            const system = new FillingSystem();
+        // Check volume relationship
+        if (targetVolume < this.currentVolume) {
+            this.elements.targetError.textContent = 'Target volume cannot be less than current volume';
+            this.elements.targetError.style.display = 'block';
+            this.elements.targetInput.value = this.currentVolume;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    updateDisplays() {
+        // Smooth animation for LCD display
+        const targetDisplay = this.currentVolume.toFixed(2) + ' ML';
+        if (this.elements.lcdDisplay.textContent !== targetDisplay) {
+            this.elements.lcdDisplay.style.opacity = '0';
+            setTimeout(() => {
+                this.elements.lcdDisplay.textContent = targetDisplay;
+                this.elements.lcdDisplay.style.opacity = '1';
+            }, 200);
+        }
+
+        const targetVolume = parseFloat(this.elements.targetInput.value);
+        const progress = (this.currentVolume / targetVolume) * 100;
+        
+        // Smooth progress updates
+        requestAnimationFrame(() => {
+            this.elements.progressBar.style.width = `${progress}%`;
+            this.elements.oilLevel.style.height = `${progress}%`;
         });
+    }
+
+    startFilling() {
+        if (this.isRunning || !this.validateInputs()) return;
+        
+        const targetVolume = parseFloat(this.elements.targetInput.value);
+        const flowRate = parseFloat(this.elements.flowRateInput.value);
+        
+        if (this.currentVolume >= targetVolume) {
+            this.showNotification('Please reset before starting a new fill', 'warning');
+            return;
+        }
+
+        // Add animation classes
+        this.elements.tank.classList.add('filling');
+        this.elements.nozzle.classList.add('flowing');
+        this.elements.valve.classList.add('active');
+        this.elements.fillingContainer.classList.add('active');
+        
+        this.isRunning = true;
+        this.startTime = Date.now();
+        this.updateSystemStatus('filling');
+        this.elements.drops.style.display = 'block';
+
+        // More precise filling interval
+        const updateInterval = 50; // 50ms for smoother animation
+        this.fillInterval = setInterval(() => {
+            if (this.currentVolume < targetVolume) {
+                const increment = (flowRate / 20); // Adjusted for 50ms interval
+                this.currentVolume = Math.min(targetVolume, this.currentVolume + increment);
+                this.updateDisplays();
+                this.updateEfficiency();
+            } else {
+                this.completeFilling();
+            }
+        }, updateInterval);
+    }
+
+    stopFilling() {
+        if (!this.isRunning) return;
+        
+        // Remove animation classes
+        this.elements.tank.classList.remove('filling');
+        this.elements.nozzle.classList.remove('flowing');
+        this.elements.valve.classList.remove('active');
+        this.elements.fillingContainer.classList.remove('active');
+        
+        this.isRunning = false;
+        clearInterval(this.fillInterval);
+        this.updateSystemStatus('stopped');
+        this.elements.drops.style.display = 'none';
+        this.updateEfficiency();
+    }
+
+    completeFilling() {
+        this.stopFilling();
+        this.cycles++;
+        this.elements.cycleCount.textContent = this.cycles;
+        this.updateSystemStatus('ready');
+        this.showNotification('Filling complete!', 'success');
+    }
+
+    resetSystem() {
+        this.stopFilling();
+        
+        // Animate volume reset
+        const resetAnimation = setInterval(() => {
+            if (this.currentVolume > 0) {
+                this.currentVolume = Math.max(0, this.currentVolume - 100);
+                this.updateDisplays();
+            } else {
+                clearInterval(resetAnimation);
+                this.updateSystemStatus('ready');
+                this.efficiency = 100;
+                this.updateEfficiency();
+            }
+        }, 50);
+    }
+
+    updateSystemStatus(status) {
+        const badge = this.elements.statusBadge;
+        badge.style.opacity = '0';
+        setTimeout(() => {
+            badge.className = `status-badge status-${status}`;
+            badge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            badge.style.opacity = '1';
+        }, 200);
+    }
+
+    updateEfficiency() {
+        if (!this.isRunning) {
+            this.efficiency = 100;
+        } else {
+            const targetVolume = parseFloat(this.elements.targetInput.value);
+            const expectedTime = targetVolume / parseFloat(this.elements.flowRateInput.value);
+            const actualTime = (Date.now() - this.startTime) / 1000;
+            this.efficiency = Math.min(100, Math.round((expectedTime / actualTime) * 100));
+        }
+        
+        // Animate efficiency changes
+        const efficiencyDisplay = this.elements.efficiencyValue;
+        efficiencyDisplay.style.transform = 'scale(1.1)';
+        efficiencyDisplay.textContent = `${this.efficiency}%`;
+        setTimeout(() => {
+            efficiencyDisplay.style.transform = 'scale(1)';
+        }, 200);
+    }
+
+    showNotification(message, type = 'info') {
+        // Create notification element if it doesn't exist
+        if (!this.notificationElement) {
+            this.notificationElement = document.createElement('div');
+            this.notificationElement.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                color: white;
+                font-weight: bold;
+                transform: translateX(120%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            `;
+            document.body.appendChild(this.notificationElement);
+        }
+
+        // Set notification style based on type
+        const colors = {
+            success: '#4ade80',
+            warning: '#fbbf24',
+            error: '#ef4444',
+            info: '#60a5fa'
+        };
+        this.notificationElement.style.backgroundColor = colors[type] || colors.info;
+        
+        // Show notification
+        this.notificationElement.textContent = message;
+        this.notificationElement.style.transform = 'translateX(0)';
+        
+        // Hide after delay
+        clearTimeout(this.notificationTimeout);
+        this.notificationTimeout = setTimeout(() => {
+            this.notificationElement.style.transform = 'translateX(120%)';
+        }, 3000);
+    }
+
+    startSystemMonitoring() {
+        this.monitoringInterval = setInterval(() => {
+            // Simulate smoother pressure fluctuations using moving average
+            const newPressure = this.isRunning ? 
+                (2.5 + Math.sin(Date.now() / 1000) * 0.1) : 
+                (0.5 + Math.sin(Date.now() / 2000) * 0.05);
+            
+            this.previousPressures.shift();
+            this.previousPressures.push(newPressure);
+            const avgPressure = this.previousPressures.reduce((a, b) => a + b) / this.previousPressures.length;
+            
+            // Simulate temperature with thermal inertia
+            const targetTemp = this.isRunning ? 26 + Math.random() : 25;
+            const currentTemp = this.previousTemps[this.previousTemps.length - 1];
+            const newTemp = currentTemp + (targetTemp - currentTemp) * 0.1;
+            
+            this.previousTemps.shift();
+            this.previousTemps.push(newTemp);
+            
+            // Update displays with smooth transitions
+            this.elements.pressureValue.textContent = `${avgPressure.toFixed(1)} BAR`;
+            this.elements.temperatureValue.textContent = `${Math.round(newTemp)}°C`;
+            
+            // Safety checks with debouncing
+            if (avgPressure > 2.8) {
+                this.handlePressureWarning();
+            }
+            
+            if (newTemp > 28) {
+                this.handleTemperatureWarning();
+            }
+        }, 1000);
+    }
+
+    handlePressureWarning() {
+        if (this.isRunning && !this.warningTimeout) {
+            this.warningTimeout = setTimeout(() => {
+                this.showNotification('Warning: High pressure detected! System will pause.', 'error');
+                this.stopFilling();
+                this.warningTimeout = null;
+            }, 500);
+        }
+    }
+
+    handleTemperatureWarning() {
+        if (this.isRunning && !this.warningTimeout) {
+            this.warningTimeout = setTimeout(() => {
+                this.showNotification('Warning: High temperature detected! Check cooling system.', 'warning');
+                this.warningTimeout = null;
+            }, 500);
+        }
+    }
+}
+
+// Initialize the system
+window.addEventListener('DOMContentLoaded', () => {
+    const system = new FillingSystem();
+});
     </script>
 </body>
 </html>
